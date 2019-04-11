@@ -17,6 +17,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def update
+    byebug
     @player.update(player_params)
     if @player.save
       render json: @player, status: :accepted

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
   before_action :authorized
 
   def encode_token(payload) #{ player_id: 2 }
-    byebug
+    # byebug
     JWT.encode(payload, 'my_s3cr3t') #issue a token, store payload in token
   end
 
@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
   def current_player
     if decoded_token()
       player_id = decoded_token[0]['player_id'] #[{ "player_id"=>"2" }, { "alg"=>"HS256" }]
-      @player = player.find_by(id: player_id)
+      @player = Player.find_by(id: player_id)
     else
       nil
     end
