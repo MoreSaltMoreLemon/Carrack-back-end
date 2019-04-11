@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :players
-  resources :games
+  namespace :api do
+    namespace :v1 do
+      resources :games
+      resources :players
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
