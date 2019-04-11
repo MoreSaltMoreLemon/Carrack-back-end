@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :games
       resources :players
+
+      get '/login', to: 'auth#new'
+      post '/login', to: 'auth#create'
+      get '/logout', to: 'auth#destroy'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
