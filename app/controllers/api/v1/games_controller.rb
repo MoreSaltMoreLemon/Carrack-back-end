@@ -37,6 +37,12 @@ class Api::V1::GamesController < ApplicationController
     end
   end
 
+  def available_players
+  end
+
+  def join_game
+  end
+
   private
 
   def game_params
