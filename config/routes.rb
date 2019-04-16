@@ -9,16 +9,16 @@ Rails.application.routes.draw do
       get '/logout', to: 'auth#destroy'
 
 
-      namespace :game do
-      get   '/active_games',    to: 'games#active'
-      get   '/available_games', to: 'games#available'
-      post  '/join',            to: 'games#join'
-      post  '/turn_available',  to: 'games#turn?'
-      get   '/importTurn',      to: 'games#import'
-      put   '/exportTurn',      to: 'games#export'
-      post  '/win',             to: 'games#win'
-      delete '/exit',           to: 'games#exit'
-      end
+      
+      get   'game/active_games',    to: 'games#active'
+      get   'game/available_games', to: 'games#available'
+      post  'game/join',            to: 'games#join'
+      post  'game/turn_available',  to: 'games#turn?'
+      get   'game/importTurn',      to: 'games#import'
+      put   'game/exportTurn',      to: 'games#export'
+      post  'game/win',             to: 'games#win'
+      delete 'game/exit',           to: 'games#exit'
+      
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -9,8 +9,8 @@ class Api::V1::GamesController < ApplicationController
 
   def create
     @game = Game.create(
-                        player1: game_params[:player1_id],
-                        player2: game_params[:player2_id],
+                        player1_id: game_params[:player1_id],
+                        player2_id: game_params[:player2_id],
                         turn: 0,
                         finished: false,
                         winner: 0)
@@ -39,20 +39,31 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def active
+    byebug
+    @active_games = Game
+                      .all
+                      .filter {|game| !game.finished && !game.player2_id.nil?}
+    
+    unless @active_games.empty?
+      render json: @active_games
+    else
+      render json: { status: 'no available games', ready: false }
+    end
+
   end
 
   def join
     @open_game = find_open_game
     if @open_game.nil?
       @game = Game.create(
-        player1: game_params[:player_id],
-        player2: nil,
+        player1_id: game_params[:player_id],
+        player2_id: nil,
         turn: 0,
         finished: false,
         winner: 0)
       render json: @game
     else 
-      @open_game.player2 = game_params[:player_id]
+      @open_game.player2_id = game_params[:player_id]
       @open_game.save
 
       render json: @open_game
@@ -63,7 +74,7 @@ class Api::V1::GamesController < ApplicationController
     @empty_game = Game
                     .all
                     .sort {|a, b| a.created_at <=> b.created_at }
-                    .filter {|game| game.player2 == nil }
+                    .filter {|game| game.player2_id == nil }
                     .last
   end
 
