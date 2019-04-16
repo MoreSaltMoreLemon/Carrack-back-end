@@ -1,4 +1,5 @@
 class Api::V1::GamesController < ApplicationController
+  skip_before_action :authorized, only: [:create]
   before_action :find_game, only: [:edit, :update, :destroy]
 
   def index

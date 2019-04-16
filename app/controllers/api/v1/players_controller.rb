@@ -17,7 +17,6 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def update
-    byebug
     @player.update(player_params)
     if @player.save
       render json: @player, status: :accepted
@@ -41,12 +40,7 @@ class Api::V1::PlayersController < ApplicationController
   private
 
   def player_params
-    # username: player_params[:username],
-    #                     email: player_params[:email],
-    #                     password: player_params[:password],
-    #                     wins: 0,
-    #                     losses: 0
-    params.require(:player).permit(:id, :username, :email, :password)
+    params.require(:player).permit(:id, :username, :email, :password, :activity)
   end
 
   def find_player
