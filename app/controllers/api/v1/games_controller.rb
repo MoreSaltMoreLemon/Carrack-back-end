@@ -38,19 +38,76 @@ class Api::V1::GamesController < ApplicationController
     end
   end
 
-  def available_players
+  def active
   end
 
-  def join_game
+  def join
+    @open_game = find_open_game
+    if @open_game.nil?
+      @game = Game.create(
+        player1: game_params[:player_id],
+        player2: nil,
+        turn: 0,
+        finished: false,
+        winner: 0)
+      render json: @game
+    else 
+      @open_game.player2 = game_params[:player_id]
+      @open_game.save
+
+      render json: @open_game
+    end
+  end
+
+  def find_open_game
+    @empty_game = Game
+                    .all
+                    .sort {|a, b| a.created_at <=> b.created_at }
+                    .filter {|game| game.player2 == nil }
+                    .last
+  end
+
+
+  def turn?
+    if @game.player2.nil?
+      render json: { status: 'waiting for player 2', ready: false }
+    else
+      if @game.turn > game_params[:turn]
+        render json: { status: 'new turn available', ready: true }
+      else
+        render json: { status: 'waiting for other player', ready: false }
+      end
+    end
+  end
+
+  def import
+    render json: @game
+  end
+
+  def export
+    @game.update(game_params)
+    if @game.save
+      render json: @game, status: :accepted
+    else
+      render json: 
+        { errors: @game.errors_full_messages },
+        status: :unprocessible_entity
+    end
+  end
+
+  def win
+  end
+
+  def exit
   end
 
   private
 
   def game_params
-    params.require(:game).permit(:id)
+    params.require(:game).permit(:id, :player_id, :turn, :game_state)
   end
 
   def find_game
-    @game = Game.find(params[:id])
+    @game = Game.find(game_params[:player_id])
   end
 end

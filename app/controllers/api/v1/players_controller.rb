@@ -8,6 +8,7 @@ class Api::V1::PlayersController < ApplicationController
   end
 
   def create
+    byebug
     @player = Player.create(player_params)
     if @player.valid?
       render json: { player: PlayerSerializer.new(@player) }, status: :created

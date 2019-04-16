@@ -4,7 +4,8 @@ class Api::V1::AuthController < ApplicationController
   def new
   end
 
-  def create # POST /api/v1/login
+  def create
+    # POST /api/v1/login
     @player = Player.find_by(username: player_login_params[:username])
     if @player && @player.authenticate(player_login_params[:password])
       @token = encode_token({ player_id: @player.id })
