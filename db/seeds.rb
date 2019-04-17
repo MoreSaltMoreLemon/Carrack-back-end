@@ -7,7 +7,7 @@ Player.create(username: 'allen', password: 'password')
     username: Faker::Internet.username,
     email: Faker::Internet.email,
     password: 'password',
-    activity: 'active'
+    activity: 'available'
   )
 end
 
@@ -22,12 +22,12 @@ end
   )
 end
 
-2.times do |i|
-  Game.create(
-    player1_id: Player.find(i + 8).id,
-    player2_id: nil,
-    turn: 0,
-    finished: false,
-    game_state: ''
-  )
-end
+# 2.times do |i|
+#   Game.create(
+#     player1_id: Player.find(i + 8).id,
+#     player2_id: nil,
+#     turn: 0,
+#     finished: false,
+#     game_state: ''
+#   )
+# end

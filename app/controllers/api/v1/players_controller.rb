@@ -38,6 +38,11 @@ class Api::V1::PlayersController < ApplicationController
     end
   end
 
+  def available
+    @available_players = Player.all.select {|p| p.activity == 'available'}
+    render json: @available_players
+  end
+
   private
 
   def player_params

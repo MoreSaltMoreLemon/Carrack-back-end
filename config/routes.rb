@@ -8,11 +8,10 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get '/logout', to: 'auth#destroy'
 
-
-      
+      get 'player/available_players', to: 'players#available'
+  
       get   'game/active_games',    to: 'games#active'
-      get   'game/available_games', to: 'games#available'
-      post  'game/join',            to: 'games#join'
+      post  'game/create',          to: 'games#create'
       post  'game/turn_available',  to: 'games#turn?'
       get   'game/importTurn',      to: 'games#import'
       put   'game/exportTurn',      to: 'games#export'
