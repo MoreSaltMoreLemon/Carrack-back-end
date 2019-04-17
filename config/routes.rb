@@ -10,13 +10,13 @@ Rails.application.routes.draw do
 
       get 'player/available_players', to: 'players#available'
   
-      get   'game/active_games',    to: 'games#active'
-      post  'game/create',          to: 'games#create'
-      post  'game/turn_available',  to: 'games#turn?'
-      get   'game/import_turn',      to: 'games#import'
-      put   'game/export_turn',      to: 'games#export'
-      post  'game/win',             to: 'games#win'
-      delete 'game/exit',           to: 'games#exit'
+      get   'game/active_games',   to: 'games#active'
+      post  'game/create',         to: 'games#create'
+      post  'game/turn_available', to: 'games#turn?'
+      post  'game/import_turn',    to: 'games#import'
+      put   'game/export_turn',    to: 'games#export'
+      post  'game/win',            to: 'games#win'
+      delete 'game/exit',          to: 'games#exit'
       
     end
   end
