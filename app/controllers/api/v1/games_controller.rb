@@ -1,3 +1,5 @@
+require_relative './initial_game.rb'
+
 class Api::V1::GamesController < ApplicationController
   skip_before_action :authorized, only: [:create]
   before_action :find_game, only: [:edit, :update, :destroy]
@@ -65,13 +67,14 @@ class Api::V1::GamesController < ApplicationController
   # end
 
   def create
-    byebug
+    # byebug
     @game = Game.create(
       player1_id: game_params[:player_id],
       player2_id: game_params[:opponent_id],
       turn: 0,
       finished: false,
-      winner: 0)
+      winner: 0,
+      game_state: INITIAL_GAME)
     render json: @game
   end
 
@@ -120,7 +123,8 @@ class Api::V1::GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:id, :player_id, :opponent_id, :turn, :finished, :winner, :game_state)
+    params.require(:game).permit(:id, :player_id, :opponent_id, :finished, :winner, :turn, :game_state)
+
   end
 
   def find_game
