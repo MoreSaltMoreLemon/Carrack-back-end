@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
       get '/login', to: 'auth#new'
       post '/login', to: 'auth#create'
-      get '/logout', to: 'auth#destroy'
+      post '/logout', to: 'auth#destroy'
 
       get 'player/available_players', to: 'players#available'
   

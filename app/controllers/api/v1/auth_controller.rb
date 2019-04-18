@@ -18,6 +18,7 @@ class Api::V1::AuthController < ApplicationController
   end
 
   def destroy
+    byebug
     @player = Player.find_by(username: player_login_params[:username])
     if @player && @player.authenticate(player_login_params[:password])
       @player.activity = 'inactive'
