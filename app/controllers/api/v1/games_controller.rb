@@ -29,34 +29,29 @@ class Api::V1::GamesController < ApplicationController
     render json: @game
   end
 
-  def find_open_game
-    @empty_game = Game
+  def join
+    # byebug
+    @joined_game = Game
                     .all
-                    .sort {|a, b| a.created_at <=> b.created_at }
-                    .filter {|game| game.player2_id == nil }
                     .last
+        # .select {|game| game.player1_id == @player.id && !game.finished }
+    render json: @joined_game
   end
 
 
   def turn?
-    if @game.player2.nil?
-      render json: { status: 'Waiting for Player 2', ready: false }
+    if @game.turn > game_params[:turn]
+      render json: { status: 'New turn available', ready: true }
     else
-      if @game.turn > game_params[:turn]
-        render json: { status: 'New turn available', ready: true }
-      else
-        render json: { status: 'Waiting for Opponent', ready: false }
-      end
+      render json: { status: 'Waiting for Opponent', ready: false }
     end
   end
 
   def import
-    # byebug
     render json: @game
   end
 
   def export
-    # byebug
     @game.update(game_params)
     if @game.save
       render json: @game, status: :accepted

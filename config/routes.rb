@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   
       get   'game/active_games',   to: 'games#active'
       post  'game/create',         to: 'games#create'
+      post  'game/join',         to: 'games#join'
       post  'game/turn_available', to: 'games#turn?'
       post  'game/import_turn',    to: 'games#import'
       put   'game/export_turn',    to: 'games#export'

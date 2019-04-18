@@ -9,7 +9,7 @@ class Api::V1::AuthController < ApplicationController
     @player = Player.find_by(username: player_login_params[:username])
     if @player && @player.authenticate(player_login_params[:password])
       @token = encode_token({ player_id: @player.id })
-      @player.activity = 'active'
+      @player.activity = 'available'
       @player.save
       render json: { player: PlayerSerializer.new(@player), jwt: @token }, status: :accepted
     else
