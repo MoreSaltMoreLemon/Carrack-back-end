@@ -26,6 +26,8 @@ class Api::V1::GamesController < ApplicationController
       finished: false,
       winner: 0,
       game_state: INITIAL_GAME)
+    @game.player1.activity = 'playing'
+    @game.player2.activity = 'playing'
     render json: @game
   end
 
@@ -41,7 +43,13 @@ class Api::V1::GamesController < ApplicationController
 
   def turn?
     if @game.turn > game_params[:turn]
-      render json: { status: 'New turn available', ready: true }
+      if @game.finished && @game.winner > 0 
+        render json: { status: 'You lost!', ready: true }
+      elsif @game.finished
+        render json: { status: 'Opponent has quit', ready: true }
+      else
+        render json: { status: 'New turn available', ready: true }
+      end
     else
       render json: { status: 'Waiting for Opponent', ready: false }
     end
@@ -63,9 +71,18 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def win
+    @game.update(game_params)
+    @game.finished = true
+    @game.winner = @player.id
+    @game.save
+    render json: { status: 'You won!', ready: true }
   end
 
   def exit
+    @game.update(game_params)
+    @game.finished = true
+    @game.save
+    render json: { status: 'Quitter', ready: true }
   end
 
   private
